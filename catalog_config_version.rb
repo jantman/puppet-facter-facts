@@ -16,33 +16,23 @@ require 'puppet'
 require 'yaml'
 require 'facter'
 
-localconfig = ARGV[0] || "#{Puppet[:clientyamldir]}/catalog/#{ Facter.fqdn }.yaml"
+Puppet.settings.initialize_global_settings rescue nil
 
-unless File.exist?(localconfig)
-  puts("Can't find #{ Facter.fqdn }.yaml")
-  exit 1
+Facter.add('catalog_config_version') do
+  setcode do
+    begin
+      catalog_file = ARGV[0] || "#{Puppet[:clientyamldir]}/catalog/#{Facter.fqdn}.yaml"
+
+      begin
+        catalog = Marshal.load(File.read(catalog_file))
+      rescue TypeError
+        catalog = YAML.load_file(catalog_file)
+      end
+  
+      catalog.class == Puppet::Resource::Catalog ? catalog.version : 'unknown'
+    rescue Exception
+      nil
+    end
+  end
 end
 
-lc = File.read(localconfig)
-
-begin
-  pup = Marshal.load(lc)
-rescue TypeError
-  pup = YAML.load(lc)
-rescue Exception => e
-  raise
-end
-
-if pup.class == Puppet::Resource::Catalog
-        Facter.add("catalog_config_version") do
-                setcode do
-                        pup.version
-                end
-        end
-else
-        Facter.add("catalog_config_version") do
-                setcode do
-                        "unknown"
-                end
-        end
-end
