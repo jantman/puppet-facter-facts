@@ -5,7 +5,7 @@ a collection of facts for user with [Facter](https://github.com/puppetlabs/facte
 
 *   catalog_config_version.rb - fact for the version of the last applied
     catalog, taken from the "version" element (config_version) of the
-    catalog. (This really is obsolete now that we have [config_version](http://docs.puppetlabs.com/references/latest/configuration.html#configversion).
+    catalog. ([PUP-1076](https://tickets.puppetlabs.com/browse/PUP-1076) would render this obsolete.)
 *   has_netbackup.rb - simple test for whether or not (boolean)
     [Symantec Netbackup](http://www.symantec.com/netbackup) is installed,
     based on presence of /usr/openv/netbackup/bin directory. Can be used to
@@ -32,6 +32,7 @@ a collection of facts for user with [Facter](https://github.com/puppetlabs/facte
 *   python_version.rb - Facts for the paths and versions of installed Python interpreters,
     as well as a list of all available versions, and the best available versions. Sample
 	output:
+
         python27_path => /usr/bin/python2.7
         python33_path => /usr/bin/python3.3
         python_default_bin => /usr/bin/python
@@ -41,9 +42,11 @@ a collection of facts for user with [Facter](https://github.com/puppetlabs/facte
         python_usrbin_version => 3.3.5
         python_versions => ["2.7.6", "3.3.5"]
         python_versions_str => 2.7.6,3.3.5
+
 *   virtualenv_version.rb - Facts for the paths and versions of installed virtualenv scripts,
     as well as a list of all available versions and the best available versions. Sample
 	output:
+
         virtualenv27_path => /usr/bin/virtualenv-2.7
         virtualenv33_path => /usr/bin/virtualenv-3.3
         virtualenv_default_bin => /usr/bin/virtualenv
