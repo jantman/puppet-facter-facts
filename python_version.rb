@@ -14,7 +14,7 @@ end
 Facter.add("python_default_bin") do
   setcode do
     begin
-      /^(\/.+)$/.match(Facter::Util::Resolution.exec('which python'))[1]
+      /^(\/.+)$/.match(Facter::Util::Resolution.exec('which python 2>/dev/null'))[1]
     rescue
       false
     end
@@ -50,7 +50,7 @@ def add_python_paths
   pythons.each do|factname, binname|
     Facter.add(factname) do
       begin
-        path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname}"))[1]
+        path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname} 2>/dev/null"))[1]
         ver = /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec("#{path} -V 2>&1"))[1]
         versions.push(ver)
         python_latest_path = path

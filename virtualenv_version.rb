@@ -14,7 +14,7 @@ end
 Facter.add("virtualenv_default_bin") do
   setcode do
     begin
-      /^(\/.+)$/.match(Facter::Util::Resolution.exec('which virtualenv'))[1]
+      /^(\/.+)$/.match(Facter::Util::Resolution.exec('which virtualenv 2>/dev/null'))[1]
     rescue
       false
     end
@@ -50,7 +50,7 @@ def add_virtualenv_paths
   virtualenvs.each do|factname, binname|
     Facter.add(factname) do
       begin
-        path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname}"))[1]
+        path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname} 2>/dev/null"))[1]
         ver = /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec("#{path} --version 2>&1"))[1]
         versions.push(ver)
         virtualenv_latest_path = path
