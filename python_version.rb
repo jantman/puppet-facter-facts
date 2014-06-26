@@ -4,7 +4,7 @@
 Facter.add("python_default_version") do
   setcode do
     begin
-      /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec('python -V 2>&1'))[1]
+      Facter::Util::Resolution.exec('python -c "import sys; print(\'.\'.join(map(str, sys.version_info[:3])));" 2>/dev/null')
     rescue
       false
     end
@@ -24,7 +24,7 @@ end
 Facter.add("python_usrbin_version") do
   setcode do
     begin
-      /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec('/usr/bin/python -V 2>&1'))[1]
+      Facter::Util::Resolution.exec('/usr/bin/python -c "import sys; print(\'.\'.join(map(str, sys.version_info[:3])));" 2>/dev/null')
     rescue
       false
     end
@@ -51,7 +51,7 @@ def add_python_paths
     Facter.add(factname) do
       begin
         path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname} 2>/dev/null"))[1]
-        ver = /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec("#{path} -V 2>&1"))[1]
+        ver = Facter::Util::Resolution.exec("#{path} -c \"import sys; print('.'.join(map(str, sys.version_info[:3])));\" 2>/dev/null")
         versions.push(ver)
         python_latest_path = path
         python_latest_ver = ver
