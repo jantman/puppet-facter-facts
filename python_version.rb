@@ -47,7 +47,8 @@ def add_python_paths
   python_latest_path = nil
   python_latest_ver = nil
 
-  pythons.each do|factname, binname|
+  pythons.keys.sort.each do|factname|
+    binname = pythons[factname]
     Facter.add(factname) do
       begin
         path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname} 2>/dev/null"))[1]

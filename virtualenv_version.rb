@@ -47,7 +47,8 @@ def add_virtualenv_paths
   virtualenv_latest_path = nil
   virtualenv_latest_ver = nil
 
-  virtualenvs.each do|factname, binname|
+  virtualenvs.keys.sort.each do|factname|
+    binname = virtualenvs[factname]
     Facter.add(factname) do
       begin
         path = /^(\/.+)$/.match(Facter::Util::Resolution.exec("which #{binname} 2>/dev/null"))[1]
