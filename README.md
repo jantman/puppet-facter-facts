@@ -1,6 +1,8 @@
 puppet-facter-facts
 ===================
 
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/0.1.0/active.svg)](http://www.repostatus.org/#active)
+
 a collection of facts for user with [Facter](https://github.com/puppetlabs/facter) and [Puppet](https://github.com/puppetlabs/puppet)
 
 *   catalog_config_version.rb - fact for the version of the last applied
